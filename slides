@@ -1,0 +1,84 @@
+rails new rails_meets_nosql --skip-active-record --skip-javascript --skip-turbolinks --skip-test-unit
+
+add to Gemfile
+
+gem 'mongoid', '~> 4.0.1'
+gem 'mongoid_paranoia', '~> 0.1.2'
+gem 'moped', '~> 2.0.4'
+gem 'bson_ext'
+gem 'devise'
+
+replace in Gemfile
+gem 'jbuilder', '~> 2.0'
+with
+gem 'active_model_serializers', '~> 0.9.0'
+
+for testing
+gem 'rspec-rails', '~> 3.2.0'
+gem 'factory_girl_rails', '~> 4.5.0'
+gem 'ffaker', '~> 2.0.0'
+
+bundle install
+rspec --init
+
+lets see what we can do
+rake -T
+
+...
+rake db:drop # Drops all the collections for the database for the current Rails.env
+rake db:mongoid:create_indexes # Create the indexes defined on your mongoid models
+rake db:mongoid:drop # Drops the default session
+rake db:mongoid:purge # Drop all collections except the system collections
+rake db:mongoid:remove_indexes # Remove the indexes defined on your mongoid models without questions!
+rake db:mongoid:remove_undefined_indexes # Remove indexes that exist in the database but aren't specified on the models
+rake db:purge # Drop all collections except the system collections
+rake db:reset # Delete data and loads the seeds
+rake db:seed # Load the seed data from db/seeds.rb
+rake db:setup # Create the database, and initialize with the seed data
+...
+
+rails g
+
+...
+Rails:
+  controller
+  generator
+  helper
+  job
+  mailer
+  migration
+  model
+  resource
+  scaffold
+  scaffold_controller
+  serializer
+  task
+
+Devise:
+  devise
+  devise:controllers
+  devise:install
+  devise:views
+
+Mongoid:
+  mongoid:config
+  mongoid:devise
+
+rails g devise:install
+rails g mongoid:config
+rails g mongoid:devise company
+rails g mongoid:devise developer
+
+rails g model category name:string
+rails g model ticket name:string price:integer
+
+
+Relational and NoSQL data models are very different. The relational model takes data and separates it into many interrelated tables that contain rows and columns. Tables reference each other through foreign keys that are stored in columns as well.
+
+When looking up data, the desired information has to be collected from many tables (often hundreds in today’s enterprise applications) and combined before it can be provided to the application. Similarly, when writing data, the write needs to be coordinated and performed on many tables.
+
+NoSQL databases have a very different model. For example, a document-oriented NoSQL database takes the data you want to store and aggregates it into documents using the JSON format.
+
+Each JSON document can be thought of as an object used by your application. A JSON document might take all the data stored in a row that spans 20 tables of a relational database and aggregate it into a single document/object.
+
+Aggregating this information may lead to duplication, but since storage is no longer cost prohibitive, the resulting data model’s flexibility, efficiency in distributing the resulting documents, and read and write performance improvement, make it an easy trade-off for web-based applications.
